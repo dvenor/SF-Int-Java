@@ -20,7 +20,8 @@ public class Student {
     if (!isValidStudent(name, gpa)) throw new IllegalArgumentException();
     this.name = name;
     this.gpa = gpa;
-    this.courses = List.of(courses);
+//    this.courses = List.of(courses);
+    this.courses = Arrays.asList(courses);
   }
 
   public static boolean isValidStudent(String name, double gpa) {
