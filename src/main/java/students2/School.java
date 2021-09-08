@@ -6,18 +6,23 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.Consumer;
 
+@FunctionalInterface
 interface Criterion<E> {
   boolean test(E s);
+//  void doStuff();
 }
+//
+//interface Something<E> {
+//  void doSomething(E e);
+//}
 
-interface Something<E> {
-  void doSomething(E e);
-}
-
-class PrintSomething implements Something<Student> {
+//class PrintSomething implements Something<Student> {
+class PrintSomething implements Consumer<Student> {
   @Override
-  public void doSomething(Student student) {
+//  public void doSomething(Student student) {
+  public void accept(Student student) {
     System.out.println("> " + student);
   }
 }
@@ -29,9 +34,11 @@ public class School {
 //    }
 //    System.out.println("---------------------------");
 //  }
-  public static <E> void withEvery(Iterable<E> ls, Something<E> someObject) {
+//  public static <E> void withEvery(Iterable<E> ls, Something<E> someObject) {
+  public static <E> void withEvery(Iterable<E> ls, Consumer<E> someObject) {
     for (E s : ls) {
-      someObject.doSomething(s);
+//      someObject.doSomething(s);
+      someObject.accept(s);
     }
   }
 
@@ -58,7 +65,7 @@ public class School {
 //    });
 
     // show smart students
-//    showAll(getByCriterion(roster, ???));
+    withEvery(getByCriterion(roster, s -> s.getGpa() > 3.0), s -> System.out.println(s));
 
     // show unenthusiastic students
 //    showAll(getByCriterion(roster, ???));
