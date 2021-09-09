@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.function.Predicate;
 
 public class Student {
   private String name;
@@ -44,6 +45,11 @@ public class Student {
   }
   public List<String> getCourses() {
     return Collections.unmodifiableList(courses);
+  }
+
+  public static Predicate<Student> getSmartPredicate(/*final */double threshold) {
+//    threshold++;
+    return s -> s.gpa > threshold;
   }
 
   @Override
