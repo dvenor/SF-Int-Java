@@ -1,5 +1,6 @@
 package superiterable;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -25,6 +26,16 @@ public class SILab {
       "Astrophysics", 3,
       "Quantum Mechanics", 2
   );
+
+  private static List<Integer> getCreditHoursForStudent(Student s) {
+    List<Integer> hoursList = new ArrayList<>();
+    for (String c : s.getCourses()) {
+      Integer h = creditHours.get(c);
+      if (h == null) h = 0;
+      hoursList.add(h);
+    }
+    return hoursList;
+  }
 
   // This is Java 11's nearest representation of a "tuple"
   // Java 16 introduces "records" and records are a better
@@ -122,6 +133,19 @@ public class SILab {
     roster
         // print all the courses taken by all the students.
         .flatMap(s -> new SuperIterable<>(s.getCourses()))
+        .forEach(s -> System.out.println(s));
+
+    System.out.println("All credit hours for all students");
+    roster
+
+        .forEach(s -> System.out.println(s));
+
+    System.out.println("All student-course pairs");
+    // Fred takes Math
+    // Fred takes Physics
+    // ...
+    roster
+
         .forEach(s -> System.out.println(s));
 
   }
