@@ -13,6 +13,7 @@ public class SuperIterable<E> implements Iterable<E> {
     this.self = self;
   }
 
+  // this is equivalent to "forEach"
 //  public void withEvery(SuperIterable<E> this, Consumer<E> someObject) {
 // This is "forEach"
 //  public void withEvery(Consumer<E> someObject) {
@@ -39,6 +40,17 @@ public class SuperIterable<E> implements Iterable<E> {
     for (E s : this.self) {
       F f = op.apply(s);
       res.add(f);
+    }
+    return new SuperIterable<>(res);
+  }
+
+  public <F> SuperIterable<F> flatMap(Function<E, SuperIterable<F>> op) {
+    List<F> res = new ArrayList<>();
+    for (E s : this.self) {
+      SuperIterable<F> manyf = op.apply(s);
+      for (F f : manyf) {
+        res.add(f);
+      }
     }
     return new SuperIterable<>(res);
   }
