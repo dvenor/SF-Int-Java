@@ -137,7 +137,7 @@ public class SILab {
 
     System.out.println("All credit hours for all students");
     roster
-
+        .flatMap(s -> new SuperIterable<>(getCreditHoursForStudent(s)))
         .forEach(s -> System.out.println(s));
 
     System.out.println("All student-course pairs");
@@ -145,8 +145,14 @@ public class SILab {
     // Fred takes Physics
     // ...
     roster
-
+//        .flatMap(s -> {
+//          return new SuperIterable<>(s.getCourses())
+//              .map((String c) -> {
+//                return "Student: " + s.getName() + " takes " + c;
+//              });
+//        })
+        .flatMap(s -> new SuperIterable<>(s.getCourses())
+              .map(c -> "Student: " + s.getName() + " takes " + c))
         .forEach(s -> System.out.println(s));
-
   }
 }
