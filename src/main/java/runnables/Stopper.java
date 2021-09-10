@@ -2,11 +2,12 @@ package runnables;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class Stopper {
 //  private static boolean stop = false;
-  private static List<Integer> stop = new ArrayList<>(Arrays.asList(0));
+  private static List<Integer> stop = Collections.synchronizedList(new ArrayList<>(Arrays.asList(0)));
 
   public static void main(String[] args) throws InterruptedException {
     Runnable stopper = () -> {
