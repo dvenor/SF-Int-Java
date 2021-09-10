@@ -1,0 +1,22 @@
+https://sfdc.plusplus.co/a/surveys/813/
+
+Monte Carlo -- homework in your own time, contact me afterwards
+simon@dancingcloudservices.com
+
+if I throw ten dice I get a random number between 10 and 60,
+but the distribution is normal
+
+Using only streams (no loops, no "substring" or other stuff)
+generate many thousands of "throws" and plot (ascii graphics)
+the frequency against the "face value"
+
+*
+*
+***
+*****
+********
+*********
+********
+*****
+***
+*

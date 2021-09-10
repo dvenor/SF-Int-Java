@@ -32,12 +32,19 @@ public class Concordance {
 //      FileInputStream fis = new FileInputStream("")/*;*/
       ) {
 
-          input
+          var map = input
               .flatMap(line -> NON_WORD.splitAsStream(line))
               .filter(s -> !s.isBlank())
               .map(s -> s.toLowerCase())
-              .collect(Collectors.groupingBy(s -> s, Collectors.counting()))
-              .entrySet().stream()
+              .collect(Collectors.groupingBy(s -> s, Collectors.counting()));
+
+      System.out.println(map.getClass());
+              map.entrySet().stream()
+              // ordering
+              .sorted((e1, e2) -> Long.compare(e2.getValue(), e1.getValue())  )
+              // select just the first 200
+              .limit(200)
+              .map(e -> String.format("%20s : %5d", e.getKey(), e.getValue()))
               .forEach(e -> System.out.println(e));
 //              .forEach(s -> System.out.println(s));
     }

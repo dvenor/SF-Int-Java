@@ -43,7 +43,8 @@ public class CollectAverage {
     // uses THAT ForkJoinPool.
     ThreadLocalRandom.current().doubles(20_000_000_000L, -Math.PI, +Math.PI)
         .parallel()
-        .collect(() -> new Average(), (a, d) -> a.include(d), (a1, a2) -> a1.merge(a2))
+//        .collect(() -> new Average(), (a, d) -> a.include(d), (a1, a2) -> a1.merge(a2))
+        .collect(Average::new, Average::include, Average::merge)
         .get()
         .ifPresentOrElse(a -> System.out.println("Average is " + a),
             () -> System.out.println("No data"));

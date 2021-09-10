@@ -107,17 +107,17 @@ public class SILab {
     roster
         // Add code HERE ONLY, so as to print
         // "Student: <name> takes advanced courses" for all students taking a course at 300+ level
-        .filter(s -> takesAdvancedCourses(s, 300))
-//        .filter(s -> {
-//          List<String> courses = s.getCourses();
-//          for (String c : courses) {
-//            Integer level = courseLevel.get(c);
-//            if (level != null) {
-//              if (level >= 300) return true;
-//            }
-//          }
-//          return false;
-//        })
+//        .filter(s -> takesAdvancedCourses(s, 300))
+        .filter(s -> {
+          List<String> courses = s.getCourses();
+          for (String c : courses) {
+            Integer level = courseLevel.get(c);
+            if (level != null) {
+              if (level >= 300) return true;
+            }
+          }
+          return false;
+        })
         .map(s -> "Student: " + s.getName() + "takes advanced courses")
         .forEach(s -> System.out.println(s));
 
@@ -125,7 +125,14 @@ public class SILab {
     roster
         // Add code HERE ONLY, so as to print
         // "Student: <name> takes <total> credit hours" for all students
-        .map(s -> getWithCredit(s))
+//        .map(s -> SILab.getWithCredit(s))
+        // This is "method reference"
+        // compiler will look for a method called getWithCredit
+        // in the context of the identifier that preceeds ::
+        // it needs to find exactly ONE target method,
+        // such that the argument list necessary for the lambda
+        // exactly conforms to the argument list of that found method
+        .map(SILab::getWithCredit)
         .map(t -> "Student: " + t.s.getName() + " takes " + t.creditHours + " credit hours")
         .forEach(s -> System.out.println(s));
 
@@ -133,7 +140,8 @@ public class SILab {
     roster
         // print all the courses taken by all the students.
         .flatMap(s -> new SuperIterable<>(s.getCourses()))
-        .forEach(s -> System.out.println(s));
+//        .forEach(s -> System.out.println(s));
+        .forEach(System.out::println);
 
     System.out.println("All credit hours for all students");
     roster
