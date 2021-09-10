@@ -4,6 +4,8 @@ import java.util.Arrays;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
+// Trendy modern name for this (with some minor extras)
+// is "Actor model"
 public class ProducerConsumer {
   public static void main(String[] args) {
     // need a shared BlockingQueue<int[]>
@@ -30,7 +32,7 @@ public class ProducerConsumer {
           if (i == 5_000) {
             data[0] = -1;
           }
-          bq.put(data);
+          bq.put(data); data = null; // must not touch again!!!
         }
       } catch (InterruptedException ie) {
         System.out.println("this shouldn't happen...");
