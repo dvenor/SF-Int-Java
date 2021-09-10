@@ -1,8 +1,13 @@
 package prodcons;
 
+import java.util.Arrays;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.BlockingQueue;
+
 public class ProducerConsumer {
   public static void main(String[] args) {
     // need a shared BlockingQueue<int[]>
+    BlockingQueue<int[]> bq = new ArrayBlockingQueue<>(10);
 
     Runnable producer = () -> {
 /*
@@ -15,6 +20,21 @@ public class ProducerConsumer {
       5) overwrite our array pointer with null
       6) loop around
 */
+      try {
+        for (int i = 0; i < 10_000; i++) {
+          int[] data = {0, i};
+          if (i < 500) {
+            Thread.sleep(1);
+          }
+          data[0] = i;
+          if (i == 5_000) {
+            data[0] = -1;
+          }
+          bq.put(data);
+        }
+      } catch (InterruptedException ie) {
+        System.out.println("this shouldn't happen...");
+      }
     };
 
     Runnable consumer = () -> {
@@ -25,10 +45,27 @@ public class ProducerConsumer {
       3) verify that the array contains { count, count } -- message if not
       4) loop around
  */
+      try {
+        for (int i = 0; i < 10_000; i++) {
+          int [] data = bq.take();
+          if (data[0] != i || data[0] != data[1]) {
+            System.out.println("***** Error at index " + i + " got " + Arrays.toString(data));
+          }
+          if (i > 9_500) {
+            Thread.sleep(1);
+          }
+        }
+      } catch (InterruptedException ie) {
+        System.out.println("shouldn't happen");
+      }
+
     };
 
     // create two threads
     // start both
     // optionally--join both.
+    new Thread(producer).start();
+    new Thread(consumer).start();
+
   }
 }
