@@ -36,5 +36,13 @@ public class UsingCollectors {
         .entrySet().stream()
         .map(e -> e.getValue() + " students scored grade " + e.getKey())
         .forEach(s -> System.out.println(s));
+
+    roster.stream()
+        .collect(Collectors.groupingBy(s -> letterGrade(s),
+            Collectors.mapping(s -> s.getName(),
+                Collectors.joining(", "))))
+        .entrySet().stream()
+        .map(e -> e.getValue() + " scored grade " + e.getKey())
+        .forEach(s -> System.out.println(s));
   }
 }
