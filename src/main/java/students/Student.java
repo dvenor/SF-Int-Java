@@ -51,7 +51,8 @@ public class Student {
     }
   }
   public List<String> getCourses() {
-    return Collections.unmodifiableList(courses);
+//    return Collections.unmodifiableList(courses);
+    return courses;
   }
 
   @Override

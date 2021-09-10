@@ -1,16 +1,24 @@
 package runnables;
 
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicLong;
+
 public class Counter {
   public static long count = 0;
+//  public static AtomicLong count = new AtomicLong();
 
   public static void main(String[] args) throws InterruptedException {
     Runnable r = () -> {
-      for (int i = 0; i < 100_000; i++) {
-        count++;
+      for (int i = 0; i < 1_000_000_000L; i++) {
+        synchronized (Counter.class) {
+          count++;
+        }
+//        count.incrementAndGet();
       }
     };
 
     System.out.println("count is " + count);
+    long start = System.nanoTime();
     Thread t = new Thread(r);
     t.start();
     Thread t2 = new Thread(r);
@@ -21,6 +29,8 @@ public class Counter {
     // to the continuation of the calling thread
     t.join();
     t2.join();
-    System.out.println("count is " + count);
+    long time = System.nanoTime() - start;
+    System.out.println("count is " + count + ". Time was " + (time / 1_000_000_000.0));
+
   }
 }
